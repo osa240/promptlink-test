@@ -27,6 +27,7 @@ public class LimitedSetImpl implements LimitedSet<Object> {
         for (int i = 0; i < plurality.length; i++) {
             if (plurality[i] != null && plurality[i].equals(o)) {
                 plurality[i] = null;
+                countOfReferences[i] = 0;
                 return true;
             }
         }

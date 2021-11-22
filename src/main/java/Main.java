@@ -5,6 +5,12 @@ import service.LimitedSetImpl;
 public class Main {
     public static void main(String[] args) {
         LimitedSet<Object> limitedSet = new LimitedSetImpl();
+        limitedSet.add("2");
+        limitedSet.add("3");
+        limitedSet.contains("2");
+        limitedSet.contains("2");
+        limitedSet.remove("2");
+        limitedSet.add("4");
         for (int i = 0; i < 100; i++) {
             limitedSet.add(i);
             System.out.println(limitedSet.contains(new Random().nextInt(25)));
