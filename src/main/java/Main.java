@@ -13,5 +13,7 @@ public class Main {
             System.out.println(limitedSet.remove(i));
             System.out.println(limitedSet.contains(new Random().nextInt(25)));
         }
+        limitedSet.add(2);
+        limitedSet.add(2);
     }
 }

@@ -13,7 +13,7 @@ public class LimitedSetImpl implements LimitedSet<Object> {
     @Override
     public void add(Object o) {
         for (int i = 0; i < plurality.length; i++) {
-            if (plurality[i] == null) {
+            if (plurality[i] == null || plurality[i].equals(o)) {
                 plurality[i] = o;
                 return;
             }
