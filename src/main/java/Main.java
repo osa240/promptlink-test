@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.Random;
 import service.LimitedSet;
 import service.LimitedSetImpl;
@@ -11,15 +12,18 @@ public class Main {
         limitedSet.contains("2");
         limitedSet.remove("2");
         limitedSet.add("4");
-        for (int i = 0; i < 100; i++) {
+        limitedSet.add("2");
+        Date timeStart = new Date();
+        for (int i = 0; i < 1_000_000; i++) {
             limitedSet.add(i);
-            System.out.println(limitedSet.contains(new Random().nextInt(25)));
+            System.out.println(limitedSet.contains(new Random().nextInt(1_000_000)));
         }
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1_000_000; i++) {
             System.out.println(limitedSet.remove(i));
-            System.out.println(limitedSet.contains(new Random().nextInt(25)));
+            System.out.println(limitedSet.contains(new Random().nextInt(1_000_000)));
         }
-        limitedSet.add(2);
-        limitedSet.add(2);
+        Date timeFinish = new Date();
+        System.out.println((timeFinish.getTime() - timeStart.getTime()) / 1000
+                + " seconds program was in work");
     }
 }

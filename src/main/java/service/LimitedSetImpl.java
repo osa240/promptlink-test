@@ -1,58 +1,52 @@
 package service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LimitedSetImpl implements LimitedSet<Object> {
-    private final Object[] plurality;
-    private final int[] countOfReferences;
-    private int indexOfLastNotPopularObject;
+    private static final int INITIAL_CAPACITY = 1_000_000;
+    private static final int CUSTOM_LOAD_FACTOR = 1;
+
+    private final Map<Object, Integer> pluralityCountsOfReferences;
+    private Object maxCountingObject;
 
     {
-        plurality = new Object[10];
-        countOfReferences = new int[10];
+        pluralityCountsOfReferences = new HashMap<>(INITIAL_CAPACITY, CUSTOM_LOAD_FACTOR);
     }
 
     @Override
     public void add(Object o) {
-        for (int i = 0; i < plurality.length; i++) {
-            if (plurality[i] == null || plurality[i].equals(o)) {
-                plurality[i] = o;
-                return;
-            }
+        if (pluralityCountsOfReferences.size() == INITIAL_CAPACITY
+                && !pluralityCountsOfReferences.containsKey(o)) {
+            pluralityCountsOfReferences.remove(maxCountingObject);
+            newMaxCountingObject();
         }
-        remove(returnNotPopularObject());
-        plurality[indexOfLastNotPopularObject] = o;
+        if (!pluralityCountsOfReferences.containsKey(o)) {
+            pluralityCountsOfReferences.put(o, 0);
+        }
     }
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < plurality.length; i++) {
-            if (plurality[i] != null && plurality[i].equals(o)) {
-                plurality[i] = null;
-                countOfReferences[i] = 0;
-                return true;
-            }
-        }
-        return false;
+        return pluralityCountsOfReferences.remove(o) != null;
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < plurality.length; i++) {
-            if (plurality[i] != null && plurality[i].equals(o)) {
-                countOfReferences[i]++;
-                return true;
-            }
+        if (pluralityCountsOfReferences.containsKey(o)) {
+            int countOfReferences = pluralityCountsOfReferences.get(o) + 1;
+            pluralityCountsOfReferences.put(o, countOfReferences);
+            return true;
         }
         return false;
     }
 
-    private Object returnNotPopularObject() {
-        int minPopularity = countOfReferences[0];
-        for (int i = 0; i < countOfReferences.length; i++) {
-            if (countOfReferences[i] < minPopularity) {
-                minPopularity = countOfReferences[i];
-                indexOfLastNotPopularObject = i;
+    private void newMaxCountingObject() {
+        int maxCount = 0;
+        for (Map.Entry<Object, Integer> entry : pluralityCountsOfReferences.entrySet()) {
+            if (entry.getValue() > maxCount) {
+                maxCountingObject = entry.getKey();
             }
         }
-        return plurality[indexOfLastNotPopularObject];
     }
 }

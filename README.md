@@ -4,10 +4,10 @@
 Класс должен реализовывать следующий интерфейс:
 
 ```java
-public interface LimitedSet<T> {
-void add(final T t);
-boolean remove(final T t);
-boolean contains(final T t);
+public interface LimitedSet<object.FinalObject> {
+void add(final object.FinalObject t);
+boolean remove(final object.FinalObject t);
+boolean contains(final object.FinalObject t);
 }
 ```
 Размер множества не может превышать 10 элементов.
