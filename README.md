@@ -19,3 +19,6 @@ boolean contains(final object.FinalObject t);
 обращений - ( вызовов метода contains() )
 
 Если таких элементов несколько - удаляется любой один из них.
+
+## Made by:
+Serhii Orlov, orlov30@gmail.com, 063 434 72 66.
